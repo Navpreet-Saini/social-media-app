@@ -37,24 +37,18 @@ export default function HomePage() {
     }
   }, [status, router]);
 
-  if (status === "loading") {
-    return <div className="text-center py-10">Loading...</div>;
-  }
-
-  if (!session) {
-    // Optionally, render nothing or a spinner while redirecting
-    return null;
-  }
-
-  // Fetch posts from API on load
+  // Fetch posts from API on load (only if logged in)
   useEffect(() => {
-    fetch("/api/posts")
-      .then(res => res.json())
-      .then(data => {
-        setPosts(data);
-        setLoading(false);
-      });
-  }, []);
+    if (session) {
+      setLoading(true);
+      fetch("/api/posts")
+        .then(res => res.json())
+        .then(data => {
+          setPosts(data);
+          setLoading(false);
+        });
+    }
+  }, [session]);
 
   // Post creation
   const handleCreatePost = async (e) => {
@@ -155,6 +149,16 @@ export default function HomePage() {
     await fetch(`/api/posts/${postId}`, { method: "DELETE" });
     setPosts(posts => posts.filter(p => p._id !== postId));
   };
+
+  // Loading and session checks AFTER all hooks
+  if (status === "loading") {
+    return <div className="text-center py-10">Loading...</div>;
+  }
+
+  if (!session) {
+    // Optionally, render nothing or a spinner while redirecting
+    return null;
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 dark:bg-gray-900 py-8">
