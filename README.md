@@ -3,6 +3,8 @@ A modern, responsive social media platform built with Next.js, MongoDB Atlas, an
 Users can sign up, create profiles, post text and images, like (clap) posts, comment, and more—all in a beautiful, mobile-friendly UI.
 
 🚀 Live Demo
+https://social-media-app-3pa4.vercel.app/auth/login
+
 📸 Screenshots
 ![Home](./public/screenshots/home.png)
 
